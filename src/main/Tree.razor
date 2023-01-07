@@ -1,0 +1,126 @@
+﻿@implements IDisposable
+@using Blazorise
+@using ei8.Cortex.Diary.Application.Subscriptions
+@using ei8.Cortex.Diary.Domain.Model
+@using ei8.Cortex.Diary.Port.Adapter.UI.Views.Blazor.Common
+@using ei8.Cortex.Diary.Application.Neurons
+@using ei8.Cortex.Library.Client
+@using ei8.Cortex.Library.Common
+@using Blazorise.Icons.FontAwesome
+@using ei8.Cortex.Diary.Application.Settings
+@using ei8.Cortex.Diary.Application.Identity
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.AspNetCore.Components.Web
+@using System.Timers
+@using ei8.Cortex.Subscriptions.Common
+@using ei8.Cortex.Subscriptions.Common.Receivers
+@using neurUL.Common.Http
+@using System.Linq
+
+<NeuronContextMenu @bind-SelectedOption="@this.SelectedOption" @bind-IsVisible="@this.IsContextMenuVisible" />
+<ConfirmationBox Title="Confirm Delete" Message='@this.ProcessSelectionTag("Are you sure you want to delete Neuron '{0}'?")' @bind-IsVisible="@this.IsConfirmVisible" OnConfirmCallback="@this.ConfirmDelete" />
+<NeuronInfoBox @bind-SelectedNeuron="@this.SelectedNeuron" @bind-IsVisible="@this.IsInfoVisible" />
+<AvatarUrlEditorBox @bind-NewAvatarUrl="@this.AvatarUrl" AvatarUrl="@this.AvatarUrl" @bind-IsVisible="@this.IsAvatarUrlVisible" />
+<NeuronSearchBox AvatarUrl="@this.AvatarUrl" @bind-IsVisible="@this.IsSearchDefaultRegionNeuronVisible" @bind-SelectedNeuron="this.SelectedDefaultRegionNeuron" />
+
+<div class="top-row px-4" style="padding-top:12px;z-index:1">
+    <div class="details align-middle ">
+        <button class="btn btn-light btn-sm rounded-circle" @onclick="@this.Reload" style="height:32px;width:32px;" title="Reload">
+            <Blazorise.Icon Name="FontAwesomeIcons.Redo" />
+            @if (this.NewItemsCount > 0)
+            {
+                <Badge Pill="true" Color="Color.Danger" style="top:-35px;left:8px;height:14px;font-size:0.6em">@(this.NewItemsCount)</Badge>
+            }
+        </button>
+        <div class="col p-0">
+            <input class="form-control form-control-sm ml-1 rounded inputEditor" id="AvatarUrl" placeholder="Avatar URL" @bind="AvatarUrl" @onkeyup="@this.OnKeyPress" />
+            <button class="inputEditorButton" @onclick="this.ShowAvatarEditorBox"><i class="fas fa-edit"></i></button>
+        </div>
+        <button class="btn btn-light btn-sm rounded-circle ml-1" @onclick="this.LoadGraph" style="height:32px; width:32px" title="Load Graph">
+            <Blazorise.Icon Name="FontAwesomeIcons.CodeBranch" />
+        </button>
+        <Dropdown RightAligned="true" @ref="this.optionsDropdown">
+            <button class="btn btn-light btn-sm ml-1 rounded-circle" @onclick="this.ShowOptionsMenu" title="Options">
+                <Blazorise.Icon Name="FontAwesomeIcons.EllipsisV" Class="px-1" />
+            </button>
+            <Blazorise.DropdownMenu style="width: 250px">
+                <DropdownItem @onclick="this.CopyAvatarUrl">
+                    <Blazorise.Icon Name="FontAwesomeIcons.Clone" Class="px-2" />
+                    Copy Direct Avatar URL
+                </DropdownItem>
+                <Dropdown Direction="Direction.End">
+                    <DropdownToggle>
+                        <Blazorise.Icon Name="FontAwesomeIcons.Bell" Class="px-2" />
+                        Subscribe
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem @onclick="this.SubscribeWithBrowser">
+                            <Blazorise.Icon Name="FontAwesomeIcons.Rocket" Class="px-2" />
+                            Web Push
+                        </DropdownItem>
+                        <DropdownItem @onclick="this.SubscribeWithEmail">
+                            <Blazorise.Icon Name="FontAwesomeIcons.Envelope" Class="px-2" />
+                            E-mail
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <DropdownItem @onclick="this.ToggleRenderDirection">
+                    <Blazorise.Icon Name="FontAwesomeIcons.Sort" Class="px-2" />
+                    @if (this.RenderDirection == RenderDirectionValue.TopToBottom)
+                    {
+                        @((MarkupString)"First At Top")
+                    }
+                    else
+                    {
+                        @((MarkupString)"First At Bottom")
+                    }
+                </DropdownItem>
+                <DropdownItem @onclick="this.SearchDefaultRegionNeuron">
+                    <Blazorise.Icon Name="FontAwesomeIcons.SearchPlus" Class="px-2" />
+                    Set Default Region ID
+                </DropdownItem>
+            </Blazorise.DropdownMenu>
+        </Dropdown>
+    </div>
+</div>
+
+@if (this.reloading)
+{
+    <div class="d-flex justify-content-center vh-100" style="padding-top: 300px">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="content px-0">
+        <div class="treecontent">
+            <div class="treecontent-item content px-lg-4 px-3">
+                <TreeView AvatarUrl="@this.AvatarUrl" Children="@this.Children" @bind-SelectedNeuron="@this.SelectedNeuron" OnMenuRequested="@this.MenuRequested" OnInfoRequested="@this.InfoRequested" @bind-ControlsEnabled="@this.ControlsEnabled" @bind-RenderDirection="@this.RenderDirection" />
+            </div>
+            <div class="treecontent-item sticky-top" style="z-index:0">
+                <div class="sticky-top" style="z-index:0">
+                    <div class="modal modal-context" id="modal" style="height: 50px">
+                        <div class="modal-body p-1">
+                            <ul class="modal-list">
+                                <li class="InnerOption" id="contextmenu">
+                                    Link
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <span class="progress spinner-border text-primary none"></span>
+                    <svg class="svgview" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="footer px-4 h-auto" style="z-index:2">
+    <EditorBox AvatarUrl="@this.AvatarUrl" InitialRegionNeuron="@this.InitialRegionNeuron" InitialPostsynapticNeurons="@this.InitialPostsynapticNeurons" SelectedNeuron="@this.EditNeuron" @bind-SelectedOption="@this.SelectedOption" />
+</div>
+
+<audio id="sound" src=@(this.SettingsService.BasePath + "/media/alert.wav") />
