@@ -1,0 +1,209 @@
+﻿/* tree-graph */
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 4px;
+}
+
+/* tree */
+.none {
+    display: none !important;
+}
+/* tree */
+.progress {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    background-color: transparent !important;
+}
+/* tree-graph */
+.modal-context {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    max-height: 5%;
+    max-width: 15%;
+}
+
+/* tree-graph */
+.modal.active {
+    display: block;
+}
+
+/* tree-graph */
+.modal-list {
+    list-style-type: none;
+    cursor: default;
+    margin: 4px 0px;
+    padding: 0px;
+}
+
+/* tree-graph */
+.InnerOption {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    padding: 4px 16px;
+}
+
+    /* tree-graph */
+    .InnerOption:hover {
+        background-color: #4677f8;
+        color: #fefefe;
+    }
+
+/* tree-graph */
+.templink {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+}
+
+/* tree-graph */
+.ghostCircle.show {
+    display: block;
+}
+
+/* tree-graph */
+.ghostCircle,
+.activeDrag .ghostCircle {
+    display: none;
+}
+
+/* tree */
+.footer {
+    position: sticky;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5rem;
+    display: flex;
+    background-color: #f7f7f7;
+    border-top: 1px solid #d6d5d5;
+    justify-content: flex-end;
+}
+/* tree */
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+/* tree */
+.invalid {
+    outline: 1px solid red;
+}
+
+/* tree */
+.validation-message {
+    color: red;
+}
+
+/* tree */
+.treecontent {
+    display: flex;
+}
+
+/* tree-graph */
+.svgview {
+    border-style: none;
+    border-width: thin;
+    border-color: lightgray;
+    width: 100% !important;
+    background-color: #f8f9fa !important;
+}
+
+@media (max-width: 767.98px) {
+    /* tree */
+    .treecontent {
+        flex-direction: column-reverse;
+    }
+
+    /* tree */
+    .treecontent-item {
+        width: 100% !important;
+    }
+
+    /* tree-graph */
+    .svgview {
+        border-bottom-style: solid;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    /* tree */
+    .treecontent {
+        flex-direction: row;
+    }
+
+    /* tree */
+    .treecontent-item {
+        width: 50% !important;
+    }
+
+    /* tree-graph */
+    .svgview {
+        border-left-style: solid;
+        height: 100vh !important;
+    }
+}
+
+/* tree-graph */
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+}
+
+/* tree-graph */
+#fullexcite {
+    fill: black;
+}
+
+/* tree-graph */
+.link.fullexcite {
+    stroke: black;
+}
+
+/* tree-graph */
+.link.partialexcite {
+    stroke-dasharray: 0,2 1;
+    stroke: black;
+}
+
+/* tree-graph */
+#fullinhibit {
+    fill: red;
+}
+
+/* tree-graph */
+.link.fullinhibit {
+    stroke: red;
+}
+
+/* tree-graph */
+.link.partialinhibit {
+    stroke-dasharray: 0,2 1;
+    stroke: red;
+}
+
+/* tree-graph */
+circle {
+    fill: #ccc;
+    stroke: #333;
+    stroke-width: 1.5px;
+}
+
+/* tree-graph */
+text {
+    font: 10px sans-serif;
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+/* tree-terminaleditorbox */
+.form-control-xs {
+    height: calc(1em + .6rem + 2px) !important;
+    padding: .125rem .25rem !important;
+    font-size: .9rem !important;
+    line-height: 1.5;
+    border-radius: .2rem;
+}

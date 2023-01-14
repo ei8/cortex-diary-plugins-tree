@@ -1,6 +1,4 @@
-﻿// head - script
-// Tree
-var BlazorScrollToId = function (id) {
+﻿var BlazorScrollToId = function (id) {
     debugger;
     const element = document.getElementById(id);
     if (element instanceof HTMLElement) {
@@ -12,14 +10,11 @@ var BlazorScrollToId = function (id) {
     }
 }
 
-// body - script
-// tree
 var dotNetHelper = null;
 window.DotNetHelperSetter = (dotHelper) => {
     dotNetHelper = dotHelper;
 };
 
-// tree
 function copyToClipboard(text) {
     var input = document.body.appendChild(document.createElement("input"));
     input.value = text;
@@ -29,7 +24,6 @@ function copyToClipboard(text) {
     input.parentNode.removeChild(input);
 }
 
-// tree
 function displayGraph(nodes, links) {
     var width = 500,
         height = 500;
@@ -104,7 +98,6 @@ function displayGraph(nodes, links) {
 
         node.append("circle")
             .attr("r", 6)
-
             .on("dblclick", dblclick);
 
         node.append("circle")
@@ -113,7 +106,6 @@ function displayGraph(nodes, links) {
             .attr("opacity", 0.3) // change this to zero to hide the target area
             .style("fill", "red")
             .on("mouseover", function (node) {
-
                 overCircle(node);
             })
             .on("mouseout", function (node) {
@@ -337,14 +329,19 @@ function displayGraph(nodes, links) {
     }
 }
 
-// tree
 function highlightTreeItem(currElement, over) {
     //get attribute value and set hover color
     var element = currElement.getAttribute("userCreated");
 
+    // TODO: yellow, blue, and gray come from _host.cshtml, should use class in css instead?
     if (element == "true") {
         currElement.style.backgroundColor = over ? yellow : blue;
     } else {
         currElement.style.backgroundColor = over ? blue : gray;
     }
+}
+
+// tree
+window.PlaySound = function () {
+    document.getElementById('sound').play();
 }
