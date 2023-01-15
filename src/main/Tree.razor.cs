@@ -24,7 +24,7 @@ using System.Timers;
 
 namespace ei8.Cortex.Diary.Plugins.Tree
 {
-    public partial class Tree : IDefaultComponentParameters
+    public partial class Tree : ComponentBase, IDefaultComponentParameters, IDisposable
     {
         private bool reloading = true;
         private Dropdown optionsDropdown;
@@ -171,15 +171,15 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                             }
                         }
 
-                        Helper.ReinitializeOption(o => this.SelectedOption = o);
-
-                        await Task.Run(async() =>
+                        await Task.Run(() =>
                         {
                             this.AvatarUrl = decodedUrl;
                             this.InitialRegionNeuron = regionNeuron;
                             this.InitialPostsynapticNeurons = postsynapticNeurons;
-                            await this.Reload();
+                            this.Reload();
                         });
+
+                        Helper.ReinitializeOption(o => this.SelectedOption = o);
                     }
                 }
                 if (!urlSet)

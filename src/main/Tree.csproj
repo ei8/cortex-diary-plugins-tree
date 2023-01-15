@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>ei8.Cortex.Diary.Plugins.Tree</AssemblyName>
     <RootNamespace>ei8.Cortex.Diary.Plugins.Tree</RootNamespace>
-    <AssemblyVersion>0.1.2.0</AssemblyVersion>
+    <AssemblyVersion>0.1.2.1</AssemblyVersion>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
   
