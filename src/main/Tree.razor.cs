@@ -30,6 +30,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         private Dropdown optionsDropdown;
         private Timer refreshTimer;
         private DotNetObjectReference<Tree>? dotNetHelper;
+        private TreePluginSettingsService pluginSettingsService;
 
         public Tree()
         {
@@ -186,7 +187,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     await this.SetReloading(false);
 
                 this.refreshTimer = new Timer();
-                this.refreshTimer.Interval = this.SettingsService.UpdateCheckInterval;
+                this.refreshTimer.Interval = this.pluginSettingsService.UpdateCheckInterval;
                 this.refreshTimer.Elapsed += OnTimerInterval;
                 this.refreshTimer.AutoReset = true;
                 // Start the timer
@@ -600,5 +601,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         public ISubscriptionApplicationService SubscriptionApplicationService { get; set; }
         [Parameter]
         public ISubscriptionQueryService SubscriptionsQueryService { get; set; }
+        [Parameter]
+        public IPluginSettingsService PluginSettingsService { get => this.pluginSettingsService; set { this.pluginSettingsService = (TreePluginSettingsService) value; } }
     }
 }
