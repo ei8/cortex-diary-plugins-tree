@@ -10,11 +10,6 @@
     }
 }
 
-var dotNetHelper = null;
-window.DotNetHelperSetter = (dotHelper) => {
-    dotNetHelper = dotHelper;
-};
-
 function copyToClipboard(text) {
     var input = document.body.appendChild(document.createElement("input"));
     input.value = text;
