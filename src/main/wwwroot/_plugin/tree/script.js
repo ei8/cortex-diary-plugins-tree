@@ -29,7 +29,18 @@ function displayGraph(nodes, links) {
         currentDraggingNode = null;
     var domNode = null;
     var selectedNode = null;
-    document.getElementById('contextmenu').addEventListener("click", selectNode);
+    // register events after 2 seconds
+    setTimeout(function () {
+        document.getElementById('contextmenu').addEventListener("click", selectNode);
+        const overlay = document.getElementsByClassName('svgview')[0];
+        overlay.addEventListener('click', () => {
+            const modals = document.querySelectorAll('.modal.active')
+
+            modals.forEach(modal => {
+                closeModal(modal)
+            })
+        });
+    }, 2000);
     function update() {
         var force = d3.layout.force()
             .nodes(d3.values(nodes))
@@ -293,15 +304,6 @@ function displayGraph(nodes, links) {
     function zoomed() {
         container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
-
-    const overlay = document.getElementsByClassName('svgview')[0];
-    overlay.addEventListener('click', () => {
-        const modals = document.querySelectorAll('.modal.active')
-
-        modals.forEach(modal => {
-            closeModal(modal)
-        })
-    });
 
     function openModal(modal, currentNode) {
 

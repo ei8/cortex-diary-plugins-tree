@@ -1,6 +1,5 @@
 using Blazored.Toast.Services;
 using Blazorise;
-using ei8.Cortex.Diary.Application.Identity;
 using ei8.Cortex.Diary.Application.Neurons;
 using ei8.Cortex.Diary.Application.Settings;
 using ei8.Cortex.Diary.Application.Subscriptions;
@@ -595,8 +594,6 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         public IJSRuntime JsRuntime { get; set; }
         [Parameter] 
         public ISettingsService SettingsService { get; set; }
-        [Parameter]
-        public IIdentityService IdentityService { get; set; }
         [Parameter]
         public ISubscriptionApplicationService SubscriptionApplicationService { get; set; }
         [Parameter]
