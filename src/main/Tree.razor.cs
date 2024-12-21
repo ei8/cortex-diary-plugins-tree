@@ -30,6 +30,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         private Timer refreshTimer;
         private DotNetObjectReference<Tree>? dotNetHelper;
         private TreePluginSettingsService pluginSettingsService;
+        private bool IsExpandModalVisible { get; set; }
 
         public Tree()
         {
@@ -53,6 +54,11 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     this.ControlsEnabled = false;
                     this.EditNeuron = this.SelectedNeuron.Neuron;
                     break;
+                case ContextMenuOption.ExpandUntillPostsynapticExteralReferences:
+                    this.ShowExpandModal();
+                    this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
+                    this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
+                    break;
             }
         }
 
@@ -63,6 +69,18 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                 if (!string.IsNullOrEmpty(this.AvatarUrl))
                     await this.Reload();
             }
+        }
+
+        private async Task CancelExpand()
+        {
+            this.IsExpandModalVisible = false;
+            this.ExpandPostsynapticsUntilExternalReferencesEnabled = false;
+            // Add any additional cancel logic here
+        }
+
+        private void ShowExpandModal()
+        {
+            this.IsExpandModalVisible = true;
         }
 
         private void ShowOptionsMenu()
@@ -310,7 +328,8 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         }
 
         private bool ControlsEnabled { get; set; } = true;
-
+        private bool ExpandPostsynapticsUntilExternalReferencesEnabled {  get; set; } = false;
+        public IList<TreeNeuronViewModel> ExpandUntillPostsynapticExteralReferencesNeurons {  get; set; } =new List<TreeNeuronViewModel>();
         private TreeNeuronViewModel SelectedNeuron { get; set; } = null;
 
         private Neuron InitialRegionNeuron { get; set; } = null;
@@ -600,5 +619,9 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         public ISubscriptionQueryService SubscriptionsQueryService { get; set; }
         [Parameter]
         public IPluginSettingsService PluginSettingsService { get => this.pluginSettingsService; set { this.pluginSettingsService = (TreePluginSettingsService) value; } }
+
+        
+
+        
     }
 }

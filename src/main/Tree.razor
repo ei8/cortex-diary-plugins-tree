@@ -18,6 +18,28 @@
 @using neurUL.Common.Http
 @using System.Linq
 
+@if (this.IsExpandModalVisible)
+{
+    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Expand Until External References</h3>
+                    <button type="button" class="close" @onclick="CancelExpand">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Expanding postsynaptic neurons until external references are found...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelExpand">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <NeuronContextMenu @bind-SelectedOption="@this.SelectedOption" @bind-IsVisible="@this.IsContextMenuVisible" />
 <ConfirmationBox Title="Confirm Delete" Message='@this.ProcessSelectionTag("Are you sure you want to delete Neuron '{0}'?")' @bind-IsVisible="@this.IsConfirmVisible" OnConfirmCallback="@this.ConfirmDelete" />
 <NeuronInfoBox @bind-SelectedNeuron="@this.SelectedNeuron" @bind-IsVisible="@this.IsInfoVisible" />
@@ -98,7 +120,8 @@ else
     <div class="content px-0">
         <div class="treecontent">
             <div class="treecontent-item content px-lg-4 px-3">
-                <TreeView AvatarUrl="@this.AvatarUrl" Children="@this.Children" @bind-SelectedNeuron="@this.SelectedNeuron" OnMenuRequested="@this.MenuRequested" OnInfoRequested="@this.InfoRequested" @bind-ControlsEnabled="@this.ControlsEnabled" @bind-RenderDirection="@this.RenderDirection" />
+                <TreeView AvatarUrl="@this.AvatarUrl" ExpandUntillPostsynapticExteralReferencesNeurons="this.ExpandUntillPostsynapticExteralReferencesNeurons" ExpandUntillPostsynapticExteralReferences="this.ExpandPostsynapticsUntilExternalReferencesEnabled" Children="@this.Children" @bind-SelectedNeuron="@this.SelectedNeuron" OnMenuRequested="@this.MenuRequested" OnInfoRequested="@this.InfoRequested"
+                    @bind-ControlsEnabled="@this.ControlsEnabled" @bind-RenderDirection="@this.RenderDirection" />
             </div>
             <div class="treecontent-item sticky-top" style="z-index:0">
                 <div class="sticky-top" style="z-index:0">
@@ -123,3 +146,4 @@ else
 </div>
 
 <audio id="sound" src=@(this.SettingsService.BasePath + "/media/alert.wav") />
+
