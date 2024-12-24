@@ -54,7 +54,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     this.ControlsEnabled = false;
                     this.EditNeuron = this.SelectedNeuron.Neuron;
                     break;
-                case ContextMenuOption.ExpandUntillPostsynapticExteralReferences:
+                case ContextMenuOption.ExpandUntilPostsynapticExternalReferences:
                     this.ShowExpandModal();
                     this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
                     this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
