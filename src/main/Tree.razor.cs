@@ -56,10 +56,19 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     break;
                 case ContextMenuOption.ExpandUntilPostsynapticExternalReferences:
                     this.ShowExpandModal();
-                    this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
-                    this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
+                    // TODO: make time limit configurable
+                    // TODO: encapsulate in TreeNeuronViewModel
+                    this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Interval = 10000;
+                    this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Elapsed -= this.ExpandPostsynapticsUntilExternalReferencesTimer_Elapsed;
+                    this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Elapsed += this.ExpandPostsynapticsUntilExternalReferencesTimer_Elapsed;
+                    this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Start();
                     break;
             }
+        }
+
+        private void ExpandPostsynapticsUntilExternalReferencesTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.CancelExpand();
         }
 
         private async void OnKeyPress(KeyboardEventArgs e)
@@ -71,10 +80,16 @@ namespace ei8.Cortex.Diary.Plugins.Tree
             }
         }
 
-        private async Task CancelExpand()
+        private void CancelExpand()
         {
+            // TODO: encapsulate in TreeNeuronViewModel
+            if (
+                this.SelectedNeuron != null && 
+                this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Enabled
+            )
+                this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Stop();
+
             this.IsExpandModalVisible = false;
-            this.ExpandPostsynapticsUntilExternalReferencesEnabled = false;
             // Add any additional cancel logic here
         }
 
@@ -328,8 +343,6 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         }
 
         private bool ControlsEnabled { get; set; } = true;
-        private bool ExpandPostsynapticsUntilExternalReferencesEnabled {  get; set; } = false;
-        public IList<TreeNeuronViewModel> ExpandUntillPostsynapticExteralReferencesNeurons {  get; set; } =new List<TreeNeuronViewModel>();
         private TreeNeuronViewModel SelectedNeuron { get; set; } = null;
 
         private Neuron InitialRegionNeuron { get; set; } = null;

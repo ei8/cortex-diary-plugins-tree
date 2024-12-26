@@ -18,6 +18,7 @@
 @using neurUL.Common.Http
 @using System.Linq
 
+@*TODO: Create ProcessBox*@
 @if (this.IsExpandModalVisible)
 {
     <div class="modal" tabindex="-1" style="display:block" role="dialog">
@@ -120,7 +121,7 @@ else
     <div class="content px-0">
         <div class="treecontent">
             <div class="treecontent-item content px-lg-4 px-3">
-                <TreeView AvatarUrl="@this.AvatarUrl" ExpandUntillPostsynapticExteralReferencesNeurons="this.ExpandUntillPostsynapticExteralReferencesNeurons" ExpandUntillPostsynapticExteralReferences="this.ExpandPostsynapticsUntilExternalReferencesEnabled" Children="@this.Children" @bind-SelectedNeuron="@this.SelectedNeuron" OnMenuRequested="@this.MenuRequested" OnInfoRequested="@this.InfoRequested"
+                <TreeView AvatarUrl="@this.AvatarUrl" Children="@this.Children" @bind-SelectedNeuron="@this.SelectedNeuron" OnMenuRequested="@this.MenuRequested" OnInfoRequested="@this.InfoRequested"
                     @bind-ControlsEnabled="@this.ControlsEnabled" @bind-RenderDirection="@this.RenderDirection" />
             </div>
             <div class="treecontent-item sticky-top" style="z-index:0">
