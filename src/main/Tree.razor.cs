@@ -56,8 +56,9 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     break;
                 case ContextMenuOption.ExpandUntilPostsynapticExternalReferences:
                     this.ShowExpandModal();
-                    this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
-                    this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
+                    //this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
+                    //this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
+                    await this.SelectedNeuron.StartExpandPostsynapticsUntilExternalReferences(this.pluginSettingsService.ExpandTimeLimit);
                     break;
             }
         }
@@ -73,8 +74,10 @@ namespace ei8.Cortex.Diary.Plugins.Tree
 
         private async Task CancelExpand()
         {
+            await Task.CompletedTask;
+            this.SelectedNeuron.CancelExpansion();
             this.IsExpandModalVisible = false;
-            this.ExpandPostsynapticsUntilExternalReferencesEnabled = false;
+            //this.ExpandPostsynapticsUntilExternalReferencesEnabled = false;
             // Add any additional cancel logic here
         }
 
