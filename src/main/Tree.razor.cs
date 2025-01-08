@@ -56,9 +56,10 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                     break;
                 case ContextMenuOption.ExpandUntilPostsynapticExternalReferences:
                     this.ShowExpandModal();
+                    this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Start();
                     //this.ExpandPostsynapticsUntilExternalReferencesEnabled = true;
                     //this.ExpandUntillPostsynapticExteralReferencesNeurons =new List<TreeNeuronViewModel>() { this.SelectedNeuron };
-                    await this.SelectedNeuron.StartExpandPostsynapticsUntilExternalReferences(this.pluginSettingsService.ExpandTimeLimit);
+                    //await this.SelectedNeuron.StartExpandPostsynapticsUntilExternalReferences(this.pluginSettingsService.ExpandTimeLimit);
                     break;
             }
         }
@@ -75,8 +76,9 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         private async Task CancelExpand()
         {
             await Task.CompletedTask;
-            this.SelectedNeuron.CancelExpansion();
+            //this.SelectedNeuron.CancelExpansion();
             this.IsExpandModalVisible = false;
+            this.SelectedNeuron.ExpandPostsynapticsUntilExternalReferencesTimer.Stop();
             //this.ExpandPostsynapticsUntilExternalReferencesEnabled = false;
             // Add any additional cancel logic here
         }
@@ -332,7 +334,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
 
         private bool ControlsEnabled { get; set; } = true;
         private bool ExpandPostsynapticsUntilExternalReferencesEnabled {  get; set; } = false;
-        public IList<TreeNeuronViewModel> ExpandUntillPostsynapticExteralReferencesNeurons {  get; set; } =new List<TreeNeuronViewModel>();
+        //public IList<TreeNeuronViewModel> ExpandUntillPostsynapticExteralReferencesNeurons {  get; set; } =new List<TreeNeuronViewModel>();
         private TreeNeuronViewModel SelectedNeuron { get; set; } = null;
 
         private Neuron InitialRegionNeuron { get; set; } = null;
