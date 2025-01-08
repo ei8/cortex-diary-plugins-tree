@@ -10,5 +10,6 @@ namespace ei8.Cortex.Diary.Plugins.Tree
         public int UpdateCheckInterval => int.TryParse(this.Configuration["UpdateCheckInterval"], out int uci) ? uci : TreePluginSettingsService.DefaultUpdateCheckInterval;
 
         public IConfiguration Configuration { get; set; }
+        public int ExpandTimeLimit { get; set; } = 10000;
     }
 }
