@@ -78,7 +78,7 @@ namespace ei8.Cortex.Diary.Plugins.Tree
                 if (!string.IsNullOrEmpty(this.AvatarUrl))
                     await this.Reload();
             }
-        }
+       }
 
         private void CancelExpand()
         {
